@@ -1,4 +1,3 @@
-const nomes = new Array("Alice", "Bob", "Charlie");
 const Pessoa = require('../models/pessoa.js')
 
 class RepositorioPessoa {
@@ -9,20 +8,31 @@ class RepositorioPessoa {
         })
     }
 
-    PegarTodos(){
+    async PegarTodos(){
         return Pessoa.findAll()
     }
 
-    Adicionar(nome){
-        nomes.push(nome)
+    async Adicionar(pessoa){
+        return await Pessoa.create(
+            pessoa
+        )
     }
 
-    Alterar(id, nome){
-        nomes[id] = nome
+    Alterar(id, nome, email, senha){
+        return Pessoa.update({
+            nome,
+            email,
+            senha
+        },
+        {
+            where: { id }
+        })
     }
 
     Deletar(id){
-        nomes.splice(id, 1)
+        Pessoa.destroy({
+            where: {id}
+        })
     }
 }
 

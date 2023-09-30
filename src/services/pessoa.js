@@ -8,24 +8,30 @@ class ServicoPessoa {
         return repositorio.PegarUm(id)
     }
 
-    PegarTodos(){
+    async PegarTodos(){
         return repositorio.PegarTodos()
     }
 
-    Adicionar(nome){
-        if(!nome) {
-            throw new Error("Favor preencher o nome.")
+    async Adicionar(pessoa){
+        if(!pessoa) {
+            throw new Error("Não foi enviada a pessoa.")
+        } else if(!pessoa.nome){
+            throw new Error("Não foi enviado o nome da pessoa")
+        } else if(!pessoa.email){
+            throw new Error("Não foi enviado o email da pessoa")
+        } else if(!pessoa.senha){
+            throw new Error("Não foi enviado a senha da pessoa")
         }
-        repositorio.Adicionar(nome)
+        repositorio.Adicionar(nome, email, senha)
     }
 
-    Alterar(id, nome){
+    Alterar(id, nome, email, senha){
         if(!nome) {
             throw new Error("Favor preencher o nome.")
         }else if(!id || isNaN(id)) {
             throw new Error("Favor preencher corretamente o id.")
         }
-        repositorio.Adicionar(nome)
+        repositorio.Alterar(id, nome, email, senha)
     }
 
     Deletar(id){
@@ -34,7 +40,6 @@ class ServicoPessoa {
         }
         repositorio.Deletar(id)
     }
-
 }
 
 module.exports = ServicoPessoa

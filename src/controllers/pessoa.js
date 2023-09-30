@@ -16,9 +16,9 @@ class ControllerPessoa {
         }
     }
 
-    PegarTodos(req, res){
+    async PegarTodos(req, res){
         try {
-            const result = servico.PegarTodos()
+            const result = await servico.PegarTodos()
 
             res.status(200).json({ nomes: result})
         } catch (eror) {
@@ -26,11 +26,9 @@ class ControllerPessoa {
         }
     }
 
-    Adicionar(req, res){
+    async Adicionar(req, res){
         try {
-            const nome = req.body.nome
-
-            servico.Adicionar(nome)
+            const result = await servico.Adicionar(req.body.pessoa)
 
             res.status(200).json({ message: "Adicionado com sucesso!"})
         } catch (error) {
@@ -40,12 +38,9 @@ class ControllerPessoa {
 
     Alterar(req, res){
         try {
-            const index = req.params.id
-            const nome = req.body.nome
+            servico.Alterar(req.params.id, req.body.nome, req.body.email, req.body.senha)
 
-            servico.Alterar(index, nome)
-
-            res.status(200).json({ message: "Alterado com sucesso!"})
+            res.status(201).json({ pessoa: result})
         } catch (error) {
             res.status(500).json({ message: "Erro ao alterar"})
         }
@@ -53,11 +48,9 @@ class ControllerPessoa {
 
     Deletar(req, res){
         try {
-            const index = req.params.id
+            servico.Deletar(req.params.id)
 
-            servico.Deletar(index)
-
-            res.status(200).json({ message: "Deletado com sucesso!"})
+            res.status(204)
         } catch (error) {
             res.status(500).json({ message: "Erro ao deletar"})
         }
